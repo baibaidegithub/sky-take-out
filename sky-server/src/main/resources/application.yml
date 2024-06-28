@@ -2,15 +2,21 @@ server:
   port: 8080
 spring:
   profiles:
+    #目前是使用dev开发环境中的druid和Cos参数，后期可以将dev改成其他开发环境即可一键更改配置环境
     active: dev
   main:
     allow-circular-references: true
   datasource:
     druid:
+      #可以根据环境不同自动变更参数
       driver-class-name: ${sky.datasource.driver-class-name}
       url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
+  servlet:
+    multipart:
+      max-file-size: 2MB  # 最大文件上传大小
+      max-request-size: 2MB  # 最大请求大小
 
 mybatis:
   #mapper配置文件
@@ -30,9 +36,16 @@ logging:
 
 sky:
   jwt:
+    # yml可以自动将配置类中的驼峰命名更改为连字符-命名 like：adminSecretKey -> admin-secret-key，能成功识别
     # 设置jwt签名加密时使用的秘钥
     admin-secret-key: itcast
     # 设置jwt过期时间
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+  tencentcos:
+    endpoint: ${sky.tencentcos.endpoint}
+    tmp-secret-id: ${sky.tencentcos.tmp-secret-id}
+    tmp-secret-key: ${sky.tencentcos.tmp-secret-key}
+    bucket-name: ${sky.tencentcos.bucket-name}
+
