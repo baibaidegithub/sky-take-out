@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.SetmealDishMapper">
+
+<!--    foreach中的collection必须与mapper中传入的参数名称一致，item为每一个变量的命名，separator为每次便利中间想要假如的分隔符，open为便利开始要加上（，close末尾要加上）-->
+    <select id="getSetmealIdsByDishIds" resultType="java.lang.Long">
+        select sky_take_out.setmeal_dish.setmeal_id from sky_take_out.setmeal_dish where dish_id in
+        <foreach collection="dishIds" item="dishId" separator="," open="(" close=")">
+            #{dishId}
+        </foreach>
+    </select>
+</mapper>
